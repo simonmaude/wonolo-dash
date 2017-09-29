@@ -303,6 +303,85 @@ h3, h4 {
 }
 
 
+
+//Breadcrumbs
+
+.breadcrumb {
+	border-radius: 0;
+	padding: 10px 15px 10px 15px;
+	background: $light-grey;
+	margin: 0;
+}
+
+h1.page-header {
+	margin-top: 20px;
+	border-bottom: 0;
+}
+
+
+
+//Panels
+.panel {
+	border: 0;
+}
+
+.panel-container {
+	padding-top: 20px;
+}
+
+.panel-heading .fa-toggle-up, .panel-heading .fa-toggle-down {
+	font-size: 17px;
+}
+
+
+.panel-heading {
+	font-size: 20px;
+	font-weight: 300;
+	letter-spacing: 0.025em;
+	height: 60px;
+	line-height: 38px;
+}
+
+.panel-default .panel-heading {
+	background: #fff;
+	border-bottom: 1px solid $light-grey;
+	color: $dark-grey;
+}
+
+.panel-footer {
+	background: #fff;
+	border-top: 1px solid $light-grey;
+}
+
+.panel-widget {
+	padding: 10px 0;
+	position: relative;
+	box-shadow: none;
+	border-radius: 0;
+	background: none;
+	text-align: center;
+	color: #333;
+}
+
+.panel-widget .panel-footer {
+	border: 0;
+	text-align: center;
+}
+
+.panel-widget .text-muted {
+	margin-top: -6px;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 0.8em;
+}
+
+.panel-widget .large {
+	color: #373b45;
+	font-size: 3em;
+}
+
+
+
 //Borders
 
 .border-top {
@@ -325,18 +404,3 @@ h3, h4 {
 	border-color: $light-grey;
 }
 
-
-
-//Breadcrumbs
-
-.breadcrumb {
-	border-radius: 0;
-	padding: 10px 15px 10px 15px;
-	background: $light-grey;
-	margin: 0;
-}
-
-h1.page-header {
-	margin-top: 20px;
-	border-bottom: 0;
-}

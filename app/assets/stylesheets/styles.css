@@ -227,6 +227,64 @@ h3, h4 {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin: 0px 0; }
 
+.breadcrumb {
+  border-radius: 0;
+  padding: 10px 15px 10px 15px;
+  background: #e1e5ed;
+  margin: 0; }
+
+h1.page-header {
+  margin-top: 20px;
+  border-bottom: 0; }
+
+.panel {
+  border: 0; }
+
+.panel-container {
+  padding-top: 20px; }
+
+.panel-heading .fa-toggle-up, .panel-heading .fa-toggle-down {
+  font-size: 17px; }
+
+.panel-heading {
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 0.025em;
+  height: 60px;
+  line-height: 38px; }
+
+.panel-default .panel-heading {
+  background: #fff;
+  border-bottom: 1px solid #e1e5ed;
+  color: #444444; }
+
+.panel-footer {
+  background: #fff;
+  border-top: 1px solid #e1e5ed; }
+
+.panel-widget {
+  padding: 10px 0;
+  position: relative;
+  box-shadow: none;
+  border-radius: 0;
+  background: none;
+  text-align: center;
+  color: #333; }
+
+.panel-widget .panel-footer {
+  border: 0;
+  text-align: center; }
+
+.panel-widget .text-muted {
+  margin-top: -6px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8em; }
+
+.panel-widget .large {
+  color: #373b45;
+  font-size: 3em; }
+
 .border-top {
   border-top: 1px solid #dadbda; }
 
@@ -241,15 +299,5 @@ h3, h4 {
 
 .panel .border-top, .panel .border-right, .panel .border-bottom, .panel .border-left {
   border-color: #e1e5ed; }
-
-.breadcrumb {
-  border-radius: 0;
-  padding: 10px 15px 10px 15px;
-  background: #e1e5ed;
-  margin: 0; }
-
-h1.page-header {
-  margin-top: 20px;
-  border-bottom: 0; }
 
 /*# sourceMappingURL=styles.css.map */

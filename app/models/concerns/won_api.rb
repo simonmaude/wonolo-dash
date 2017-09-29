@@ -4,8 +4,13 @@ require 'json'
 class Won_api 
   
   @token = ''
-  AUTH_ADDR = "https://api.wonolo.com/api_v2/authenticate"
-  JOB_REQS_ADDR = "https://api.wonolo.com/api_v2/job_requests"
+  WON_ADDR = "https://api.wonolo.com/api_v2/"
+  AUTH = "authenticate"
+  JOB_REQS = "job_requests"
+  JOBS = "jobs"
+  MESS = "messages"
+  SRCH = "search"
+  USER = "users"
   
   
   def self.get_key(key_type)
@@ -20,7 +25,7 @@ class Won_api
   
   
   def self.issue_token(p_key, s_key)
-    response = HTTParty.post(AUTH_ADDR, body: {api_key: p_key, secret_key: s_key})
+    response = HTTParty.post(WON_ADDR+AUTH, body: {api_key: p_key, secret_key: s_key})
     @token = response["token"]
     @token ? true : false 
   end

@@ -1,14 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Workspace</title>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wonolo Data Dash</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+	<!--<link href="/app/assets/stylesheets/styles.css" rel="stylesheet">-->
+ <!-- 	<link href="bootstrap.min.css" rel="stylesheet">-->
+	<!--<link href="font-awesome.min.css" rel="stylesheet">-->
 </head>
 <body>
+	<!-- Navbar -->
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="#" class="navbar-left"><%= image_tag("wonolo.png", :alt => "wonolo logo") %></a>
+				<a class="navbar-brand" href="#">Wonolo</a>
 
+				<ul class="nav navbar-top-links navbar-right">
+					<li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+						<em class="fa fa-globe"></em></a>
+						<ul class="dropdown-menu dropdown-languages">
+							<li>
+								<div class="dropdown-languages-box"><a href="#" class="pull-left">
+									<%= image_tag("english.jpg", :alt => "british flag") %>
+									<div class="language-body pull-right">
+										</br><strong>Display in English.</strong></a>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<div class="dropdown-languages-box"><a href="#" class="pull-left">
+									<%= image_tag("vietnamese.jpg", :alt => "vietnamese flag") %>
+									<div class="language-body pull-right">
+										</br><strong>Display in Vietnamese.</strong></a>
+									</div>
+								</div>
+							</li>
+							<li>
+								</a></div>
+							</li>
+						</ul>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+	</nav><!-- /Navbar -->
 <%= yield %>
-
 </body>
 </html>

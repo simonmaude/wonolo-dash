@@ -72,9 +72,9 @@ class Won_api
     while page_count <= limit
       # puts "********** page:" + page_count.to_s
       if req_state == ''
-        data = try_api(WON_ADDR+JOB_REQS, {page: page_count})
+        data = try_api(WON_ADDR+JOB_REQS, {page: page_count, per: 50})
       else
-        data = try_api(WON_ADDR+JOB_REQS, {state: req_state, page: page_count})
+        data = try_api(WON_ADDR+JOB_REQS, {state: req_state, page: page_count, per: 50})
       end
       
       if data != 'no token'

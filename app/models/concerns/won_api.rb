@@ -61,11 +61,11 @@ class Won_api
   
   def self.this_Month_Jobs(req_state, limit=20, add_params=false)
     month = Time.now.month.to_s
-    # month = "09"
-    year = Time.now.year.to_s
     if month.length == 1 then month = '0' + month  end
     count = 0
     page_count = 1
+    # diffTStamps = []
+    empStates = Hash.new 0
     id_set = Set.new
     
     puts "////////////// checking state: " + req_state + " //////////////"
@@ -77,7 +77,6 @@ class Won_api
         data = try_api(JOB_ADDR, {state: req_state, page: page_count, per: 50})
       end
       
-        # p data
       if data == 'no token'
         puts "no token"
         limit = page_count
@@ -86,25 +85,32 @@ class Won_api
         limit = page_count
       else 
         data.each do |dict|
-          if req_state == "completd"
+          if req_state == "completed" 
+            
+            # createTStamp = Time.parse(dict["created_at"])
+            # compTStamp = Time.parse(dict["completed_at"])
+            # diffTStamps << (compTStamp - createTStamp).to_i
+            # resp_day = dict["completed_at"][8,2]
+            stateCode = dict["worker"]["address_state"]
+            empStates[stateCode] += 1
             resp_month = dict["completed_at"][5,2]
           else
             resp_month = dict["updated_at"][5,2] 
+            if req_state == "in_progress"
+              stateCode = dict["worker"]["address_state"]
+              empStates[stateCode] += 1
+            end
           end
-          # resp_year= dict["updated_at"][0,4] 
-          # if resp_year != year or resp_month != month
           if resp_month != month
             puts "exit: previous month"
             limit = page_count
             break
           else
             job_id = dict["id"]
-            # puts job_id
             if !id_set.include?(job_id)
               count += 1
               id_set.add(job_id)
             else
-              # puts id_set.inspect()
               puts "exit: repeated job_id"
               limit = page_count
               break
@@ -116,7 +122,15 @@ class Won_api
     end
     puts "count: " + count.to_s
     puts "checked " + (page_count - 1).to_s + " pages"
-    count
+    if req_state == "completed" or req_state == "in_progress" 
+      # arraySum = diffTStamps.reduce(0, :+) 
+      # avgCompTimes = arraySum / diffTStamps.length
+      # puts avgCompTimes / 60 / 12
+      # [count, avgCompTimes]
+      [count, empStates]
+    else
+      count
+    end
   end
   
 end

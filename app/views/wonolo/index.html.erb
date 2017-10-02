@@ -48,7 +48,7 @@
 							<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 								<div class="panel panel-teal panel-widget border-right">
 									<div class="row no-padding">
-										<div class="large"><%= @completed_count %></div>
+										<div class="large", id='completed_count'>loading</div>
 										<div class="text-muted">Completed</div>
 									</div>
 								</div>
@@ -56,7 +56,7 @@
 							<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 								<div class="panel panel-orange panel-widget border-right">
 									<div class="row no-padding">
-										<div class="large"><%= @in_progress_count %></div>
+										<div class="large", id='in_progress_count'>loading</div>
 										<div class="text-muted">In Progress</div>
 									</div>
 								</div>
@@ -64,7 +64,7 @@
 							<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 								<div class="panel panel-blue panel-widget border-right">
 									<div class="row no-padding">
-										<div class="large"><%= @no_show_count %></div>
+										<div class="large", id='no_show_count'>loading</div>
 										<div class="text-muted">No Shows</div>
 									</div>
 								</div>
@@ -72,7 +72,7 @@
 							<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 								<div class="panel panel-red panel-widget ">
 									<div class="row no-padding">
-										<div class="large"><%= @cancelled_count %></div>
+										<div class="large", id='cancelled_count'>loading</div>
 										<div class="text-muted">Cancelled</div>
 									</div>
 								</div>
@@ -83,14 +83,16 @@
 			</div>
 		</div><!-- /Monthly Overview -->
 
+
 	
 		<div class="row">
 			<div class="col-lg-6">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						Completed / In progress jobs by State: 
+						By State: Completed / In Progress 
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body">
+
 						<div class="canvas-wrapper">
 							<canvas class="main-chart" id="bar-chart" height="200" width="600"></canvas>
 						</div>
@@ -100,5 +102,63 @@
 		</div><!--/Bar Chart-->	
 
     </div>	<!--/Main-->
-    
+    <script>	
+
+$("#completed_count").ready(    
+    function getCompCount() {
+   
+    	$.ajax({
+            type: "GET",
+            url: "data/completed",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                // console.log(data);
+                $("#completed_count").html(data);
+            }
+        })});
+        
+$("#in_progress_count").ready(    
+    function getCompCount() {
+   
+    	$.ajax({
+            type: "GET",
+            url: "data/in_progress",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                // console.log(data);
+                $("#in_progress_count").html(data);
+            }
+        })});  
+        
+$("#no_show_count").ready(    
+    function getCompCount() {
+   
+    	$.ajax({
+            type: "GET",
+            url: "data/no_show",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                // console.log(data);
+                $("#no_show_count").html(data);
+            }
+        })});   
+        
+$("#cancelled_count").ready(   
+    function getCompCount() {
+   
+    	$.ajax({
+            type: "GET",
+            url: "data/cancelled",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                $("#cancelled_count").html(data);
+            }
+        })});
+        
+        
+    </script>
 	

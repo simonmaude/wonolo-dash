@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
   
   root 'wonolo#index', as: 'root'
+  
+  get 'data/completed' => 'wonolo#completed', as: 'completed'
+  get 'data/in_progress' => 'wonolo#in_progress', as: 'in_progress'
+  get 'data/no_show' => 'wonolo#no_show', as: 'no_show'
+  get 'data/cancelled' => 'wonolo#cancelled', as: 'cancelled'
+  get 'data/charts' => 'wonolo#charts', as: 'charts'
+  
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

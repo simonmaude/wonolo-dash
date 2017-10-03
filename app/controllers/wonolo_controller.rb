@@ -1,6 +1,6 @@
 class WonoloController < ApplicationController
   def index
-    
+    @timelineData = Won_api.getNextCompletes(1, 5)
   end
   
   def completed
@@ -21,14 +21,21 @@ class WonoloController < ApplicationController
   def no_show
     @no_show_count, @empStatesNoShow = Won_api.this_Month_Jobs('no_show')
     render :json => @no_show_count
-    
+  
   end
   
   
   def cancelled
     @cancelled_count, @empStatesCanc = Won_api.this_Month_Jobs('cancelled')
     render :json => @cancelled_count
-    
+  
+  end
+  
+  
+  def timeline(page_num)
+    @timelineData = Won_api.getNextCompletes(page_num, 5)
+    # render :json => @timelineData
+  
   end
   
   

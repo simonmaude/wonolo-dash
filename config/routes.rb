@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'data/no_show' => 'wonolo#no_show', as: 'no_show'
   get 'data/cancelled' => 'wonolo#cancelled', as: 'cancelled'
   get 'data/charts' => 'wonolo#charts', as: 'charts'
+  get 'data/timeline' => 'wonolo#timeline', as: 'timeline'
   
   
   # The priority is based upon order of creation: first created -> highest priority.

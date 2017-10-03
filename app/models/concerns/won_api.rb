@@ -128,4 +128,32 @@ class Won_api
     end
   end
   
+  
+  def self.getNextCompletes(page_num, page_size)
+    data = try_api(WON_ADDR+JOB_ADDR, {state: "completed", page: page_num, per: page_size})
+    if data == 'no token'
+      puts "no token"
+      limit = page_count
+    elsif (data = data[JOB_ADDR]) == []
+      puts "exit: blank page"
+      limit = page_count
+    else 
+      returnArray = []
+      data.each do |dict|
+        workerDict = dict["worker"]
+        employerDict = dict["employer"]
+        
+        completeData = [dict["completed_at"]]
+        completeData << workerDict["first_name"]
+        completeData << workerDict["last_name"]
+        completeData << workerDict["state"]
+        completeData << workerDict["avatar_url"]
+        completeData << employerDict["business_name"]
+        
+        returnArray << completeData
+      end
+    end 
+    returnArray
+  end
+  
 end

@@ -6,8 +6,13 @@
 #
 default: &default
   adapter: postgresql
+  encoding: unicode
   pool: 5
   timeout: 5000
+  
+  template: template0
+  username: ubuntu
+  password: password
 
 development:
   <<: *default

@@ -6,7 +6,6 @@ class WonoloController < ApplicationController
     @no_show_count = data.no_show_count
     @cancelled_count = data.cancelled_count
     @timelineData = data.timelineData
-    puts @timelineData
     @chartsArray = data.charts
     
   end

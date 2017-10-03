@@ -300,6 +300,10 @@ h1.page-header {
 .panel .border-top, .panel .border-right, .panel .border-bottom, .panel .border-left {
   border-color: #e1e5ed; }
 
+.img-circle {
+  width: 3.5%;
+  height: 3.5%; }
+
 .timeline {
   list-style: none;
   padding: 20px 0 20px;

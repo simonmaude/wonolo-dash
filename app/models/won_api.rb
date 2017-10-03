@@ -62,6 +62,7 @@ class Won_api
   
   def self.this_Month_Jobs(req_state, job_requests=false, limit=20, add_params=false)
     job_requests ? query_add = JOB_REQS_ADDR : query_add = JOB_ADDR
+    year = Time.now.year.to_s
     month = Time.now.month.to_s
     if month.length == 1 then month = '0' + month end
     count = 0
@@ -87,10 +88,12 @@ class Won_api
       else 
         data.each do |dict|
           if job_requests or req_state != "completed" 
-            resp_month = dict["updated_at"][5,2] 
+            date = dict["updated_at"]
           else
-            resp_month = dict["completed_at"][5,2]
+            date = dict["completed_at"]
           end
+          resp_year = date[0,4] 
+          resp_month = date[5,2]
           
           if job_requests
             category = dict["category"]
@@ -100,7 +103,7 @@ class Won_api
             empStates[stateCode] += 1
           end
           
-          if resp_month != month
+          if resp_month != month or resp_year != year
             puts "exit: previous month"
             limit = page_count
             break

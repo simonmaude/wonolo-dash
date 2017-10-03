@@ -51,14 +51,26 @@ RSpec.describe Won_api, type: :model do
         end
         
         describe 'and asking for counts of completed job states' do
-            it 'should return and print total completd job counts' do
+            it 'should return and print total completed job counts' do
                 expect(Won_api.this_Month_Jobs('completed')).not_to eq('no token')
             end  
         end
         
-        describe 'and asking for counts of completed job states' do
-            it 'should return and print total completd job counts' do
+        describe 'and asking for counts of no show job states' do
+            it 'should return and print total no show job counts' do
                 expect(Won_api.this_Month_Jobs('no_show')).not_to eq('no token')
+            end  
+        end        
+        
+        describe 'and asking for counts of requested completed job categories' do
+            it 'should return and print total completed job categories' do
+                expect(Won_api.this_Month_Jobs('completed', true)).not_to eq('no token')
+            end  
+        end     
+        
+        describe 'and asking for counts of requested in progress job categories' do
+            it 'should return and print total in progress job categories' do
+                expect(Won_api.this_Month_Jobs('in_progress', true)).not_to eq('no token')
             end  
         end
     

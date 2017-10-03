@@ -1,5 +1,6 @@
 class WonoloController < ApplicationController
   def index
+    
   end
   
   def completed
@@ -9,48 +10,60 @@ class WonoloController < ApplicationController
     
   end
   
+  
   def in_progress
     @in_progress_count, @empStatesInProg = Won_api.this_Month_Jobs('in_progress')
     render :json => @in_progress_count
   
   end
   
+  
   def no_show
-    @no_show_count = Won_api.this_Month_Jobs('no_show')
+    @no_show_count, @empStatesNoShow = Won_api.this_Month_Jobs('no_show')
     render :json => @no_show_count
     
   end
   
+  
   def cancelled
-    puts "cancelled received"
-    @cancelled_count = Won_api.this_Month_Jobs('cancelled')
-    puts @cancelled_count
+    @cancelled_count, @empStatesCanc = Won_api.this_Month_Jobs('cancelled')
     render :json => @cancelled_count
     
   end
   
+  
   def charts
-    @completed_count, @empStatesComp = Won_api.this_Month_Jobs('completed')
-    @in_progress_count, @empStatesInProg = Won_api.this_Month_Jobs('in_progress')
-    @empStatesComp.keys.each do |state1|
-      unless @empStatesInProg.key?(state1)
-        @empStatesInProg[state1] = 0
+    @completed_count, empStatesComp = Won_api.this_Month_Jobs('completed')
+    @in_progress_count, empStatesInProg = Won_api.this_Month_Jobs('in_progress')
+    @categoryComp = Won_api.this_Month_Jobs('completed', true)
+    @categoryInProg = Won_api.this_Month_Jobs('in_progress', true)
+    
+    returnArrayPart1 = sort_chart_data(empStatesComp, empStatesInProg)
+    returnArrayPart2 = sort_chart_data(@categoryComp, @categoryInProg)
+    
+    render :json => [returnArrayPart1, returnArrayPart2]
+    
+  end
+  
+  
+  def sort_chart_data(hashOne, hashTwo)
+    
+    hashOne.keys.each do |state1|
+      unless hashTwo.key?(state1)
+        hashTwo[state1] = 0
+      end
+    end    
+    
+    hashTwo.keys.each do |state1|
+      unless hashOne.key?(state1)
+        hashOne[state1] = 0
       end
     end
-        
-    @empStatesInProg.keys.each do |state2|
-      unless @empStatesComp.key?(state2)
-        @empStatesComp[state2] = 0
-      end
-    end
     
-    @states = @empStatesInProg.keys
-    @empStatesCompValues = @empStatesComp.values
-    @empStatesInProgValues = @empStatesInProg.values
-    returnArray = [@states, @empStatesCompValues, @empStatesInProgValues]
+    states, hashOneValues = hashOne.sort_by { |state, count| state.to_s }.transpose
+    states, hashTwoValues = hashTwo.sort_by { |state, count| state.to_s }.transpose
     
-    render :json => returnArray
-    
+    [states, hashOneValues, hashTwoValues]
   end
   
   

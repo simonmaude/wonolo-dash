@@ -6,9 +6,10 @@ require 'set'
 class Won_api 
   
   @token = ''
-  JOB_ADDR = "https://api.wonolo.com/api_v2/jobs"
-  JOB_REQS_ADDR = "https://api.wonolo.com/api_v2/job_requests"
-  AUTH_ADDR = "https://api.wonolo.com/api_v2/authenticate"
+  WON_ADDR = "https://api.wonolo.com/api_v2/"
+  JOB_ADDR = "jobs"
+  JOB_REQS_ADDR = "job_requests"
+  AUTH_ADDR = "authenticate"
   JOBS = "jobs"
   MESS = "messages"
   SRCH = "search"
@@ -27,7 +28,7 @@ class Won_api
   
   
   def self.issue_token(p_key, s_key)
-    response = HTTParty.post(AUTH_ADDR, body: {api_key: p_key, secret_key: s_key})
+    response = HTTParty.post(WON_ADDR+AUTH_ADDR, body: {api_key: p_key, secret_key: s_key})
     @token = response["token"]
     @token ? true : false 
   end
@@ -59,48 +60,46 @@ class Won_api
   end
   
   
-  def self.this_Month_Jobs(req_state, limit=20, add_params=false)
+  def self.this_Month_Jobs(req_state, job_requests=false, limit=20, add_params=false)
+    job_requests ? query_add = JOB_REQS_ADDR : query_add = JOB_ADDR
     month = Time.now.month.to_s
-    if month.length == 1 then month = '0' + month  end
+    if month.length == 1 then month = '0' + month end
     count = 0
     page_count = 1
-    # diffTStamps = []
     empStates = Hash.new 0
+    jobCategory = Hash.new 0
     id_set = Set.new
     
     puts "////////////// checking state: " + req_state + " //////////////"
     while page_count <= limit
       puts "********** page:" + page_count.to_s + ", current count: " + count.to_s
       if req_state == ''
-        data = try_api(JOB_ADDR, {page: page_count, per: 50})
+        data = try_api(WON_ADDR+query_add, {page: page_count, per: 50})
       else
-        data = try_api(JOB_ADDR, {state: req_state, page: page_count, per: 50})
+        data = try_api(WON_ADDR+query_add, {state: req_state, page: page_count, per: 50})
       end
-      
       if data == 'no token'
         puts "no token"
         limit = page_count
-      elsif (data = data["jobs"]) == []
+      elsif (data = data[query_add]) == []
         puts "exit: blank page"
         limit = page_count
       else 
         data.each do |dict|
-          if req_state == "completed" 
-            
-            # createTStamp = Time.parse(dict["created_at"])
-            # compTStamp = Time.parse(dict["completed_at"])
-            # diffTStamps << (compTStamp - createTStamp).to_i
-            # resp_day = dict["completed_at"][8,2]
+          if job_requests or req_state != "completed" 
+            resp_month = dict["updated_at"][5,2] 
+          else
+            resp_month = dict["completed_at"][5,2]
+          end
+          
+          if job_requests
+            category = dict["category"]
+            jobCategory[category] +=1 
+          else
             stateCode = dict["worker"]["address_state"]
             empStates[stateCode] += 1
-            resp_month = dict["completed_at"][5,2]
-          else
-            resp_month = dict["updated_at"][5,2] 
-            if req_state == "in_progress"
-              stateCode = dict["worker"]["address_state"]
-              empStates[stateCode] += 1
-            end
           end
+          
           if resp_month != month
             puts "exit: previous month"
             limit = page_count
@@ -122,14 +121,10 @@ class Won_api
     end
     puts "count: " + count.to_s
     puts "checked " + (page_count - 1).to_s + " pages"
-    if req_state == "completed" or req_state == "in_progress" 
-      # arraySum = diffTStamps.reduce(0, :+) 
-      # avgCompTimes = arraySum / diffTStamps.length
-      # puts avgCompTimes / 60 / 12
-      # [count, avgCompTimes]
-      [count, empStates]
+    if job_requests
+      jobCategory
     else
-      count
+      [count, empStates]
     end
   end
   

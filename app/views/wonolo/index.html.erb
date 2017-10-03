@@ -30,7 +30,7 @@
 		<!-- Page Title -->  
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Wonolo Data Dashboard</h1>
+				<h1 class="page-header">Wonolo Data Dashboard </h1>
 			</div>
 		</div><!-- /Page Title -->
 		
@@ -40,7 +40,7 @@
 			<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						Monthly Job Overview - <%= "#{Date::MONTHNAMES[DateTime.now.month]}" %>
+						<%= "#{Date::MONTHNAMES[DateTime.now.month]}" %> - Job Overview 
 						<span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span></div>
 					
 					<div class="panel-body panel-container">
@@ -89,20 +89,119 @@
 			<div class="col-lg-6">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						By State: Completed / In Progress 
+						State: Completed / In Progress 
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body">
 
 						<div class="canvas-wrapper">
-							<canvas class="main-chart" id="bar-chart" height="200" width="600"></canvas>
+							<canvas class="chart" id="bar-chart" height="300" width="600"></canvas>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div><!--/Bar Chart-->	
+			</div><!--/Bar Chart-->
+		<!--</div>
+
+		<!--<div class="row">-->
+			<div class="col-lg-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Job Type: Completed / In Progress 
+						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
+					<div class="panel-body">
+
+						<div class="canvas-wrapper">
+							<canvas class="chart" id="radar-chart" height="300" width="600"></canvas>
+						</div>
+					</div>
+				</div>
+			</div><!--/Radar Chart-->
+			
+		</div>	
 
     </div>	<!--/Main-->
-    <script>	
+    
+    <script>
+    
+	$.ajax({
+        type: "GET",
+        url: "data/charts",
+        data: {},
+        contentType: "application/json; charset=utf-8",
+        success: function(data) {
+            empStates = data[0][0];
+            empStatesCompValues = data[0][1]
+            empStatesInProgValues = data[0][2];
+            
+        	catStates = data[1][0];
+            catCompValues = data[1][1]
+            catInProgValues = data[1][2];
+        	window.myBar = new Chart(bar_chart).Bar( 
+        	{
+        	labels : empStates,
+			datasets : [
+				{
+					label: "Completed:",
+					fillColor : "rgba(255,224,30,0.75)",
+					strokeColor : "rgba(220,220,220,0.8)",
+					highlightFill: "rgba(255,224,30,0.45)",
+					highlightStroke: "rgba(220,220,220,1)",
+					data : empStatesCompValues
+					// data : [1,2,3]
+				},
+				{
+					label: "In Progress:",
+					fillColor : "rgba(220,220,220,0.65)",
+					strokeColor : "rgba(220,220,220,0.8)",
+					highlightFill : "rgba(220,220,220,0.35)",
+					highlightStroke : "rgba(220,220,220,1)",
+					data : empStatesInProgValues
+					// data : [4,5,6]
+				}],
+        	},
+				{
+				responsive: true,
+				scaleLineColor: "rgba(0,0,0,.2)",
+				scaleGridLineColor: "rgba(0,0,0,.05)",
+				scaleFontColor: "#c5c7cc"
+			});
+			
+			window.myRadarChart = new Chart(radar_chart).Radar(
+			{
+			labels: catStates,
+		    datasets: [
+		        {
+		            label: "Completed",
+		            fillColor : "rgba(255,224,30,0.75)",
+					strokeColor : "rgba(220,220,220,0.8)",
+		            pointColor: "rgba(255,224,30,1)",
+		            pointStrokeColor: "#fff",
+		            pointHighlightFill: "#fff",
+		            pointHighlightStroke: "rgba(220,220,220,1)",
+		            data: catCompValues
+		        },
+		        {
+		            label: "In Progress",
+		            fillColor : "rgba(220,220,220,0.65)",
+					strokeColor : "rgba(220,220,220,0.8)",
+		            pointColor : "rgba(220,220,220, 1)",
+		            pointStrokeColor : "#fff",
+		            pointHighlightFill : "#fff",
+		            pointHighlightStroke : "rgba(48, 164, 255, 1)",
+		            data: catInProgValues
+		        }],
+        	},
+				{
+				responsive: true,
+				scaleLineColor: "rgba(0,0,0,.05)",
+				angleLineColor: "rgba(0,0,0,.2)"
+				});
+	        }
+	    });
+
+
+	var bar_chart = document.getElementById("bar-chart").getContext("2d");
+	var radar_chart = document.getElementById("radar-chart").getContext("2d");
+
 
 $("#completed_count").ready(    
     function getCompCount() {
@@ -158,6 +257,7 @@ $("#cancelled_count").ready(
                 $("#cancelled_count").html(data);
             }
         })});
+        
         
         
     </script>

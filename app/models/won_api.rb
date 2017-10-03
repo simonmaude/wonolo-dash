@@ -67,8 +67,9 @@ class Won_api
     if month.length == 1 then month = '0' + month end
     count = 0
     page_count = 1
-    empStates = Hash.new 0
-    jobCategory = Hash.new 0
+    returnArray = [] 
+    # empStates = Hash.new 0
+    # jobCategory = Hash.new 0
     id_set = Set.new
     
     puts "////////////// checking state: " + req_state + " //////////////"
@@ -95,28 +96,49 @@ class Won_api
           resp_year = date[0,4] 
           resp_month = date[5,2]
           
-          if job_requests
-            category = dict["category"]
-            jobCategory[category] +=1 
-          else
-            stateCode = dict["worker"]["address_state"]
-            empStates[stateCode] += 1
-          end
-          
           if resp_month != month or resp_year != year
             puts "exit: previous month"
             limit = page_count
             break
           else
+            # if job_requests
+            #   category = dict["category"]
+              
+            #   jobCategory[category] +=1 
+            # else
+            #   stateCode = dict["worker"]["address_state"]
+            #   empStates[stateCode] += 1
+            # end
+            
             job_id = dict["id"]
-            if !id_set.include?(job_id)
-              count += 1
-              id_set.add(job_id)
-            else
+            if id_set.include?(job_id)
               puts "exit: repeated job_id"
               limit = page_count
               break
+            else
+              
+              jobHash = {} 
+              jobHash[:job_id] = dict["id"] 
+              jobHash[:job_state] = dict["state"] 
+              jobHash[:updated_at] = dict["updated_at"] 
+              if job_requests
+                jobHash[:category] = dict["category"] 
+              else
+                jobHash[:created_at] = dict["created_at"] 
+                jobHash[:completed_at] = dict["completed_at"] 
+                jobHash[:worker_first] = dict["worker_first"] 
+                jobHash[:worker_second] = dict["worker_second"] 
+                jobHash[:worker_avatar] = dict["worker_avatar"] 
+                jobHash[:worker_state] = dict["worker_state"] 
+                jobHash[:employer_name] = dict["employer_name"] 
+              end
+              
+              returnArray << jobHash  
+              # count += 1
+              # id_set.add(job_id)
             end
+          
+            
           end
         end
       end
@@ -124,11 +146,12 @@ class Won_api
     end
     puts "count: " + count.to_s
     puts "checked " + (page_count - 1).to_s + " pages"
-    if job_requests
-      jobCategory
-    else
-      [count, empStates]
-    end
+    # if job_requests
+    #   jobCategory
+    # else
+    #   [count, empStates]
+    # end
+    returnArray
   end
   
   

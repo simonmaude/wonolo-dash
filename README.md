@@ -1,5 +1,3 @@
-[![Code Climate](https://codeclimate.com/github/simonmaude/wonolo-dash/badges/gpa.svg)](https://codeclimate.com/github/simonmaude/wonolo-dash)
-[![Test Coverage](https://codeclimate.com/github/simonmaude/wonolo-dash/badges/coverage.svg)](https://codeclimate.com/github/simonmaude/wonolo-dash/coverage)
 
 # wonolo-dash
 An interactive visulatization of Wonolo API data.

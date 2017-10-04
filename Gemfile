@@ -34,6 +34,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'simplecov', :require => false, :group => :test
 # Use font-awesome icons
 gem 'font-awesome-rails'
+# Use Yaml_db for db manipulation
+gem 'yaml_db'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

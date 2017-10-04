@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20171003203633) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "stored_data", force: :cascade do |t|
     t.integer  "completed_count"
     t.integer  "in_progress_count"
@@ -22,26 +25,6 @@ ActiveRecord::Schema.define(version: 20171003203633) do
     t.text     "timelineData"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-  end
-
-  create_table "stored_job_requests", force: :cascade do |t|
-    t.integer  "job_id"
-    t.datetime "updated_at", null: false
-    t.string   "job_state"
-    t.string   "category"
-  end
-
-  create_table "stored_jobs", force: :cascade do |t|
-    t.integer  "job_id"
-    t.datetime "completed_at"
-    t.datetime "updated_at",    null: false
-    t.string   "worker_first"
-    t.string   "worker_second"
-    t.string   "worker_avatar"
-    t.string   "worker_state"
-    t.string   "employer_name"
-    t.datetime "created_at",    null: false
-    t.string   "job_state"
   end
 
 end
